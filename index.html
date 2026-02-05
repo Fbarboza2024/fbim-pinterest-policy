@@ -3,29 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FBIM Tech - Sistema de Distribuição de Conteúdo</title>
-    <meta http-equiv="refresh" content="0; url=/posts/">
+    <title>FBIM Tech - Posts</title>
+    <meta http-equiv="refresh" content="0; url=https://fbim-tech.pages.dev/posts/">
+    <link rel="canonical" href="https://fbim-tech.pages.dev/posts/">
     <style>
         body {
+            margin: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            text-align: center;
         }
-        .loader {
-            font-size: 2rem;
+        .redirect-box {
+            background: white;
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="loader">
-        <h1>🚀 FBIM Tech</h1>
-        <p>Redirecionando para os posts...</p>
-        <p><a href="/posts/" style="color: white; text-decoration: underline;">Clique aqui se não for redirecionado</a></p>
+    <div class="redirect-box">
+        <h1>🚀</h1>
+        <p><strong>Redirecionando para FBIM Tech Posts...</strong></p>
+        <div class="spinner"></div>
+        <p>Se não for redirecionado automaticamente:</p>
+        <a href="/posts/" class="btn">Clique Aqui</a>
     </div>
+    <script>
+        setTimeout(() => {
+            window.location.href = '/posts/';
+        }, 1000);
+    </script>
 </body>
 </html>
