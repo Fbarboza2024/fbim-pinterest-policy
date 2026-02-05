@@ -1,3 +1,0 @@
-# Redirect raiz para /posts/
-/index.html  /posts/  302
-/  /posts/  302
