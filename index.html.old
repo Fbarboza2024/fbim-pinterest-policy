@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FBIM Content Network - Professional Video Distribution</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        
+        .logo-text h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text p {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .header-stats {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .stat {
+            text-align: right;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        .section-header {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .section-subtitle {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        .video-card {
+            background: #111;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .video-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px #3b82f6;
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(59, 130, 246, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .video-card:hover .play-button {
+            opacity: 1;
+        }
+        
+        .play-button::after {
+            content: '▶';
+            color: white;
+            font-size: 20px;
+            margin-left: 3px;
+        }
+        
+        .video-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        
+        .video-content {
+            padding: 20px;
+        }
+        
+        .video-category {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            color: #3b82f6;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+        
+        .video-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .video-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .video-link {
+            display: block;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .video-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .video-link:hover::before {
+            left: 100%;
+        }
+        
+        .video-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .footer {
+            background: #111;
+            border-top: 1px solid #1a1a1a;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+        
+        .footer-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .footer-text {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            .container {
+                padding: 40px 20px;
+            }
+            
+            .header-stats {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">⟡</div>
+                <div class="logo-text">
+                    <h1>FBIM CONTENT NETWORK</h1>
+                    <p>Automated Distribution Platform</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Videos Live</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100%</div>
+                    <div class="stat-label">Automated</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Featured Content</h2>
+            <p class="section-subtitle">Professionally curated and automatically distributed across platforms</p>
+        </div>
+
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/zsx3sGYx_7k/maxresdefault.jpg" alt="Elon Musk Advice">
+                    <div class="play-button"></div>
+                    <span class="video-badge">HD</span>
+                </div>
+                <div class="video-content">
+                    <div class="video-category">💼 Business</div>
+                    <h3 class="video-title">Elon Musk Advice to Young Entrepreneurs</h3>
+                    <div class="video-meta">
+                        <span>📅 05 Fev 2026</span>
+                        <span>⏱️ 123</span>
+                    </div>
+                    <a href="posts/2026-02-05-znx3sGYx_7ks.html" class="video-link">WATCH NOW →</a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/znSV2LsFGaQ/maxresdefault.jpg" alt="Motivation">
+                    <div class="play-button"></div>
+                    <span class="video-badge">HD</span>
+                </div>
+                <div class="video-content">
+                    <div class="video-category">💪 Motivação</div>
+                    <h3 class="video-title">You're Winning | Motivation Mindset Discipline</h3>
+                    <div class="video-meta">
+                        <span>📅 05 Fev 2026</span>
+                        <span>⏱️ 0:58</span>
+                    </div>
+                    <a href="posts/2026-02-05-znSV2LsFGaQ.html" class="video-link">WATCH NOW →</a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/zE3IRJl4UA/maxresdefault.jpg" alt="Dangal Movie">
+                    <div class="play-button"></div>
+                    <span class="video-badge">HD</span>
+                </div>
+                <div class="video-content">
+                    <div class="video-category">🎬 Cinema</div>
+                    <h3 class="video-title">3 Facts of DANGAL MOVIE #shorts</h3>
+                    <div class="video-meta">
+                        <span>𓓅 0Ev 2026</span>
+                        <span>⏱️ 0:45</span>
+                    </div>
+                    <a href="posts/2026-02-05-x�3IRJl4UA.html" class="video-link">WATCH NOW →</a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/zDxDHll3zFo/maxresdefault.jpg" alt="Business Coach">
+                    <div class="play-button"></div>
+                    <span class="video-badge">HD</span>
+                </div>
+                <div class="video-content">
+                    <div class="video-category">💼 Business</div>
+                    <h3 class="video-title">BUSINESS Learning - Follow Us #mindset #businesscoach</h3>
+                    <div class="video-meta">
+                        <span>𓓅 0Ev 2026</span>
+                        <span>⏱️ 1:15</span>
+                    </div>
+                    <a href="posts/2026-02-05-zDxDHll3zFo.html" class="video-link">WATCH NOW ₒ</a>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-thumbnail">
+                    <img src="https://i.ytimg.com/vi/zDE43fmCcFI/maxresdefault.jpg" alt="RA.ONE Movie">
+                    <div class="play-button"></div>
+                    <span class="video-badge">HD</span>
+                </div>
+                <div class="video-content">
+                    <div class="video-category">🎬 Cinema</div>
+                    <h3 class="video-title">3 Facts and Detail of RA.ONE MOVIE #shorts</h3>
+                    <div class="video-meta">
+                        <span>📅 05 Fev 2026</span>
+                        <span>⏱️ 0:52</span>
+                    </div>
+                    <a href="posts/2026-02-05-zDE43fmCcFI.html" class="video-link">WATCH NOW →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-logo">FBIM TECH</div>
+            <p class="footer-text">© 2026 FBKM Technology. Automated Content Distribution Platform.</p>
+            <div class="footer-links">
+                <a href="/terms">Terms of Service</a>
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/contact">Contact</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+<-bash: syntax error near unexpected token Deploy Thu Feb  5 17:49:33 CET 2026 -->
