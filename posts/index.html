@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos os Posts - FBIM Tech</title>
+    <link rel="stylesheet" href="/static/css/fbim-ultra.css">
+</head>
+<body>
+    <nav class="nav-ultra">
+        <div class="container">
+            <div class="nav-content">
+                <a href="/" class="logo">
+                    <span class="logo-icon">⚡</span>
+                    <span class="logo-text">FBIM <span class="logo-accent">Tech</span></span>
+                </a>
+                <div class="nav-links">
+                    <a href="/" class="nav-link">🏠 Início</a>
+                    <a href="/posts/" class="nav-link active">📝 Posts</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="main-content">
+        <div class="container">
+            <h1 class="section-title">📝 Todos os Posts</h1>
+            <div class="card-grid" id="allPosts">
+                <div style="text-align: center; padding: 3rem; color: var(--color-text-tertiary); grid-column: 1/-1;">
+                    Carregando posts...
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer-ultra">
+        <div class="container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; 2026 FBIM Tech. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="/static/js/fbim-ultra.js"></script>
+    <script>
+        async function loadAllPosts() {
+            try {
+                const response = await fetch('/posts/');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const links = Array.from(doc.querySelectorAll('a[href$=".html"]'))
+                    .map(a => a.getAttribute('href'))
+                    .filter(href => href && !href.includes('..') && !href.includes('index'));
+                
+                if (links.length === 0) {
+                    document.getElementById('allPosts').innerHTML = `
+                        <div style="text-align: center; padding: 3rem; color: var(--color-text-tertiary); grid-column: 1/-1;">
+                            Nenhum post encontrado ainda.
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const postsHTML = links.map((link, index) => {
+                    const filename = link.split('/').pop();
+                    const parts = filename.replace('.html', '').split('-');
+                    const date = parts.slice(0, 3).join('-');
+                    const videoId = parts[parts.length - 1];
+                    
+                    return `
+                        <article class="card-ultra">
+                            <img src="https://img.youtube.com/vi/${videoId}/maxresdefault.jpg" 
+                                 alt="Post ${index + 1}" 
+                                 class="card-image"
+                                 onerror="this.src='https://img.youtube.com/vi/${videoId}/hqdefault.jpg'">
+                            <div class="card-content">
+                                <div class="card-meta">
+                                    <span class="card-badge">📝 Post</span>
+                                    <span>${date}</span>
+                                </div>
+                                <h3 class="card-title">Post #${index + 1}</h3>
+                                <a href="${link}" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; color: var(--color-primary-light); font-weight: 500;">
+                                    Ler mais
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                        <path d="M8 0L6.59 1.41 12.17 7H0v2h12.17l-5.58 5.59L8 16l8-8z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+                
+                document.getElementById('allPosts').innerHTML = postsHTML;
+                
+            } catch (error) {
+                console.error('Erro ao carregar posts:', error);
+                document.getElementById('allPosts').innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: var(--color-text-tertiary); grid-column: 1/-1;">
+                        Erro ao carregar posts.
+                    </div>
+                `;
+            }
+        }
+        
+        loadAllPosts();
+    </script>
+</body>
+</html>
