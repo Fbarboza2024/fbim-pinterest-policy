@@ -1,0 +1,86 @@
+{% extends "layout_ultra.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-ultra">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Transforme <span class="text-gradient">Conhecimento</span> em Resultados
+            </h1>
+            <p class="hero-subtitle">
+                Conteúdo premium sobre tecnologia, negócios, finanças e muito mais. 
+                Atualizado diariamente com as últimas tendências e oportunidades.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="/posts/" class="btn-primary">
+                    📝 Ver Todos os Posts
+                </a>
+                <a href="/about" class="btn-primary btn-secondary">
+                    ℹ️ Sobre Nós
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Posts -->
+<section style="padding: 3rem 0;">
+    <div class="container">
+        <h2 class="section-title">🔥 Posts em Destaque</h2>
+        
+        <div class="card-grid">
+            {% for post in featured_posts %}
+            <article class="card-ultra">
+                {% if post.thumbnail %}
+                <img src="{{ post.thumbnail }}" alt="{{ post.title }}" class="card-image">
+                {% endif %}
+                
+                <div class="card-content">
+                    <div class="card-meta">
+                        <span class="card-badge">
+                            {{ post.emoji }} {{ post.niche|capitalize }}
+                        </span>
+                        <span>{{ post.date }}</span>
+                    </div>
+                    
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p class="card-description">{{ post.description }}</p>
+                    
+                    <a href="/post/{{ post.slug }}" style="display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; color: var(--color-primary-light); font-weight: 500;">
+                        Ler mais
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0L6.59 1.41 12.17 7H0v2h12.17l-5.58 5.59L8 16l8-8z"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section style="padding: 3rem 0; background: var(--color-dark-900);">
+    <div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center;">
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: var(--color-primary);">{{ stats.total_posts }}+</div>
+                <div style="color: var(--color-text-tertiary); margin-top: 0.5rem;">Posts Publicados</div>
+            </div>
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: var(--color-accent);">{{ stats.total_views }}+</div>
+                <div style="color: var(--color-text-tertiary); margin-top: 0.5rem;">Visualizações</div>
+            </div>
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: var(--color-success);">{{ stats.total_nichos }}</div>
+                <div style="color: var(--color-text-tertiary); margin-top: 0.5rem;">Nichos Cobertos</div>
+            </div>
+            <div>
+                <div style="font-size: 3rem; font-weight: 800; color: var(--color-info);">24/7</div>
+                <div style="color: var(--color-text-tertiary); margin-top: 0.5rem;">Atualização Contínua</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
